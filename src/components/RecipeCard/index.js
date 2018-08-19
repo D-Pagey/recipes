@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const RecipeCardWrapper = styled.div`
-  border: 1px solid pink;
+  border: 1px solid purple;
   border-radius: 6px;
   margin: 1rem 0;
   padding: 10px;
@@ -13,13 +14,26 @@ const RecipeTitle = styled.h4`
   text-align: center;
 `;
 
-export default function RecipeCard() {
+export default function RecipeCard({ recipe }) {
+  const {
+    title, cookingTime, preparationTime, serves,
+  } = recipe;
+
   return (
     <RecipeCardWrapper>
-      <RecipeTitle>Prawn Stir Fry</RecipeTitle>
-      <p>Preparation Time = <span>15 minutes</span></p>
-      <p>Cooking Time = <span>12 minutes</span></p>
-      <p>Serves = <span>2</span></p>
+      <RecipeTitle>{title}</RecipeTitle>
+      <p>Preparation Time = <span>{preparationTime} minutes</span></p>
+      <p>Cooking Time = <span>{cookingTime} minutes</span></p>
+      <p>Serves = <span>{serves}</span></p>
     </RecipeCardWrapper>
   );
 }
+
+RecipeCard.propTypes = {
+  recipe: PropTypes.shape({
+    title: PropTypes.string,
+    cookingTime: PropTypes.number,
+    preparationTime: PropTypes.number,
+    serves: PropTypes.number,
+  }).isRequired,
+};
