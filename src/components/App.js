@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import firestore from '../firebase';
 import RecipeList from './RecipeList';
+import AddRecipe from './AddRecipe';
 
 const AppWrapper = styled.div`
   margin: 0 auto;
@@ -20,30 +21,24 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    // firestore.collection('recipes').add({
-    //   name: 'Chicken Satay',
-    //   serves: 2,
-    //   prepTime: 12,
-    // })
-    //   .then((docRef) => {
-    //     console.log('Document written with ID: ', docRef.id);
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error adding document: ', error);
-    //   });
+    const newData = [];
+
     firestore.collection('recipes').get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        // console.log(`${doc.id} => ${doc.data()}`);
-        console.log(doc.data());
+        newData.push(doc.data());
       });
+      this.setState({ recipes: newData });
     });
   }
 
   render() {
+    const { recipes } = this.state;
+
     return (
       <AppWrapper>
         <MainTitle>Recipes</MainTitle>
-        <RecipeList />
+        <RecipeList recipes={recipes} />
+        <AddRecipe />
       </AppWrapper>
     );
   }

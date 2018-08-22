@@ -16,14 +16,13 @@ const RecipeTitle = styled.h4`
 
 export default function RecipeCard({ recipe }) {
   const {
-    title, cookingTime, preparationTime, serves,
+    name, prepTime, serves,
   } = recipe;
 
   return (
     <RecipeCardWrapper>
-      <RecipeTitle>{title}</RecipeTitle>
-      <p>Preparation Time = <span>{preparationTime} minutes</span></p>
-      <p>Cooking Time = <span>{cookingTime} minutes</span></p>
+      <RecipeTitle>{name}</RecipeTitle>
+      <p>Preparation Time = <span>{prepTime} minutes</span></p>
       <p>Serves = <span>{serves}</span></p>
     </RecipeCardWrapper>
   );

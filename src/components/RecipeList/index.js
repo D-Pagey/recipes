@@ -2,19 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 
 import RecipeCard from '../RecipeCard';
-import data from '../../RawData';
 
 const RecipeListWrapper = styled.div`
   padding: 0 10px;
 `;
 
-export default function RecipeList() {
-  const recipes = Object.keys(data).map(element => (
-    <RecipeCard key={element} recipe={data[element]} />));
+export default function RecipeList({ recipes }) {
+  const listOfRecipes = recipes.map(recipe => <RecipeCard key={recipe.name} recipe={recipe} />);
 
   return (
     <RecipeListWrapper>
-      {recipes}
+      {listOfRecipes}
     </RecipeListWrapper>
   );
 }
