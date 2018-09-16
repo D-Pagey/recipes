@@ -1,37 +1,31 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
+import React from 'react';
+import { func } from 'prop-types';
 
-import firestore from '../../firebase';
+import { AddRecipeWrapper } from './styles';
 
-const AddRecipeWrapper = styled.form`
-    border: 1px solid red;
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-`;
+export default function AddRecipe({ submit }) {
+  return (
+    <AddRecipeWrapper>
+      <label htmlFor="recipe-name">
+      Name
+        <input type="text" id="recipe-name" />
+      </label>
 
-export default class AddRecipe extends Component {
-  handleSubmit = () => {
-    firestore.collection('recipes').doc('new recipes').set({ hello: true });
-  }
-
-  render() {
-    return (
-      <AddRecipeWrapper>
-        <label htmlFor="recipe-name">
-        Name
-          <input type="text" id="recipe-name" />
-        </label>
-        <label htmlFor="recipe-preptime">
+      <label htmlFor="recipe-preptime">
         PrepTime
-          <input type="text" id="recipe-preptime" />
-        </label>
-        <label htmlFor="recipe-serves">
+        <input type="text" id="recipe-preptime" />
+      </label>
+
+      <label htmlFor="recipe-serves">
         Serves
-          <input type="text" id="recipe-serves" />
-        </label>
-        <button type="button" onClick={this.handleSubmit}>Submit</button>
-      </AddRecipeWrapper>
-    );
-  }
+        <input type="text" id="recipe-serves" />
+      </label>
+
+      <button type="button" onClick={submit}>Submit</button>
+    </AddRecipeWrapper>
+  );
 }
+
+AddRecipe.propTypes = {
+  submit: func.isRequired,
+};
