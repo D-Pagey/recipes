@@ -11,11 +11,15 @@ import { RecipeListWrapper } from './styles';
 import RecipeCard from '../RecipeCard';
 
 export default function RecipeList({ recipes, deleteRecipe }) {
-  const listOfRecipes = recipes.map((recipe) => { // eslint-disable-line arrow-body-style
-    return (
-      <RecipeCard key={recipe.name} recipe={recipe} deleteRecipe={deleteRecipe} />
-    );
-  });
+  let listOfRecipes = [];
+
+  if (recipes) {
+    listOfRecipes = recipes.map((recipe) => { // eslint-disable-line arrow-body-style
+      return (
+        <RecipeCard key={recipe.name} recipe={recipe} deleteRecipe={deleteRecipe} />
+      );
+    });
+  }
 
   return (
     <RecipeListWrapper>

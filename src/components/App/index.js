@@ -7,13 +7,10 @@ import AddRecipe from '../AddRecipe';
 
 export default class App extends Component {
   componentDidMount() {
-    const newData = [];
-
     db.collection('recipes').get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        newData.push(doc.data());
+        this.setState({ [doc.id]: doc.data() });
       });
-      this.setState({ recipes: newData });
     });
   }
 
