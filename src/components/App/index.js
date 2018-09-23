@@ -1,42 +1,53 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import db from '../../firebase';
-import { AppWrapper, MainTitle } from './styles';
-import RecipeList from '../RecipeList';
-import AddRecipe from '../AddRecipe';
+import db from "../../firebase";
+import { AppWrapper, MainTitle } from "./styles";
+import RecipeList from "../RecipeList";
+import AddRecipe from "../AddRecipe";
 
 export default class App extends Component {
+  state = {
+    recipes: []
+  };
+
   componentDidMount() {
-    db.collection('recipes').get().then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        this.setState({ [doc.id]: doc.data() });
-      });
-    });
+    this.fetchRecipes();
   }
+
+  fetchRecipes = () => {
+    const newRecipes = [];
+
+    db.collection("recipes")
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          newRecipes.push({ ...doc.data(), id: doc.id });
+        });
+        this.setState({ recipes: newRecipes });
+      });
+  };
 
   handleSubmit = () => {
-    db.collection('recipes').doc('new recipes').set({ hello: true });
-  }
+    db.collection("recipes")
+      .doc("new recipes")
+      .set({ hello: true });
+  };
 
   deleteRecipe = () => {
-    console.log('deleting recipe');
+    console.log("deleting recipe");
     // I need to make this dynamic
-    db.collection('recipes').doc('DhOsaiTaqoroLq0q29jV').delete();
-  }
+    db.collection("recipes")
+      .doc("DhOsaiTaqoroLq0q29jV")
+      .delete();
+  };
 
   render() {
-    const recipeList = this.state
-    && (<RecipeList
-    // eslint-disable-next-line react/destructuring-assignment
-      recipes={this.state.recipes}
-      deleteRecipe={this.deleteRecipe}
-    />
-    );
+    const { recipes } = this.state;
 
     return (
       <AppWrapper>
         <MainTitle>Recipes</MainTitle>
-        {recipeList}
+        <RecipeList recipes={recipes} deleteRecipe={this.deleteRecipe} />
         <AddRecipe submit={this.handleSubmit} />
       </AppWrapper>
     );

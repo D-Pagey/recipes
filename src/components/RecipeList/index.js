@@ -1,31 +1,21 @@
-import React from 'react';
-import {
-  arrayOf,
-  shape,
-  number,
-  string,
-  func,
-} from 'prop-types';
+import React from "react";
+import { arrayOf, shape, number, string, func } from "prop-types";
 
-import { RecipeListWrapper } from './styles';
-import RecipeCard from '../RecipeCard';
+import { RecipeListWrapper } from "./styles";
+import RecipeCard from "../RecipeCard";
 
 export default function RecipeList({ recipes, deleteRecipe }) {
-  let listOfRecipes = [];
+  const listOfRecipes = recipes.map(recipe => (
+    <RecipeCard
+      key={recipe.id}
+      name={recipe.name}
+      prepTime={recipe.prepTime}
+      serves={recipe.serves}
+      deleteRecipe={deleteRecipe}
+    />
+  ));
 
-  if (recipes) {
-    listOfRecipes = recipes.map((recipe) => { // eslint-disable-line arrow-body-style
-      return (
-        <RecipeCard key={recipe.name} recipe={recipe} deleteRecipe={deleteRecipe} />
-      );
-    });
-  }
-
-  return (
-    <RecipeListWrapper>
-      {listOfRecipes}
-    </RecipeListWrapper>
-  );
+  return <RecipeListWrapper>{listOfRecipes}</RecipeListWrapper>;
 }
 
 RecipeList.propTypes = {
@@ -33,8 +23,12 @@ RecipeList.propTypes = {
     shape({
       name: string,
       prepTime: number,
-      serves: number,
-    }),
+      serves: number
+    })
   ).isRequired,
-  deleteRecipe: func.isRequired,
+  deleteRecipe: func.isRequired
 };
+
+// RecipeList.defaultProps = {
+//   recipes: []
+// };

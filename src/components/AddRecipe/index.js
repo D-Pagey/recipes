@@ -1,13 +1,13 @@
-import React from 'react';
-import { func } from 'prop-types';
+import React from "react";
+import { func } from "prop-types";
 
-import { AddRecipeWrapper } from './styles';
+import { AddRecipeWrapper } from "./styles";
 
 export default function AddRecipe({ submit }) {
   return (
     <AddRecipeWrapper>
       <label htmlFor="recipe-name">
-      Name
+        Name
         <input type="text" id="recipe-name" />
       </label>
 
@@ -21,11 +21,13 @@ export default function AddRecipe({ submit }) {
         <input type="text" id="recipe-serves" />
       </label>
 
-      <button type="button" onClick={submit}>Submit</button>
+      <button type="button" onClick={submit}>
+        Submit
+      </button>
     </AddRecipeWrapper>
   );
 }
 
 AddRecipe.propTypes = {
-  submit: func.isRequired,
+  submit: func.isRequired
 };
