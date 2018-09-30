@@ -7,7 +7,12 @@ import AddRecipe from "../AddRecipe";
 
 export default class App extends Component {
   state = {
-    recipes: []
+    recipes: [],
+    addRecipe: {
+      name: "",
+      prepTime: "",
+      serves: ""
+    }
   };
 
   componentDidMount() {
@@ -27,28 +32,58 @@ export default class App extends Component {
       });
   };
 
-  handleSubmit = () => {
-    db.collection("recipes")
-      .doc("new recipes")
-      .set({ hello: true });
+  handleOnChange = e => {
+    const { addRecipe } = this.state;
+
+    const updatedAddRecipe = {
+      ...addRecipe,
+      [e.target.name]: e.target.value
+    };
+    this.setState({ addRecipe: updatedAddRecipe });
   };
 
-  deleteRecipe = () => {
-    console.log("deleting recipe");
-    // I need to make this dynamic
+  handleSubmit = () => {
+    const {
+      addRecipe: { name, prepTime, serves }
+    } = this.state;
+
     db.collection("recipes")
-      .doc("DhOsaiTaqoroLq0q29jV")
-      .delete();
+      .add({
+        name,
+        serves,
+        prepTime
+      })
+      .then(
+        this.setState({
+          addRecipe: {
+            name: "",
+            prepTime: "",
+            serves: ""
+          }
+        })
+      )
+      .then(this.fetchRecipes);
+  };
+
+  deleteRecipe = id => {
+    db.collection("recipes")
+      .doc(id)
+      .delete()
+      .then(this.fetchRecipes);
   };
 
   render() {
-    const { recipes } = this.state;
+    const { recipes, addRecipe } = this.state;
 
     return (
       <AppWrapper>
         <MainTitle>Recipes</MainTitle>
         <RecipeList recipes={recipes} deleteRecipe={this.deleteRecipe} />
-        <AddRecipe submit={this.handleSubmit} />
+        <AddRecipe
+          inputValues={addRecipe}
+          submit={this.handleSubmit}
+          onChange={this.handleOnChange}
+        />
       </AppWrapper>
     );
   }
