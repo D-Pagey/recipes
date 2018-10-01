@@ -7,8 +7,16 @@ export default function RecipeCard({
   deleteRecipe,
   name,
   serves,
-  prepTime
+  prepTime,
+  toggleEditMode,
+  isEditMode
 }) {
+  const editing = isEditMode ? (
+    <i className="material-icons">done</i>
+  ) : (
+    <i className="material-icons">edit</i>
+  );
+
   return (
     <RecipeCardWrapper>
       <RecipeTitle>{name}</RecipeTitle>
@@ -20,6 +28,9 @@ export default function RecipeCard({
       </p>
       <button type="button" onClick={() => deleteRecipe(id)}>
         <i className="material-icons">delete</i>
+      </button>
+      <button type="button" onClick={toggleEditMode}>
+        {editing}
       </button>
     </RecipeCardWrapper>
   );

@@ -12,7 +12,8 @@ export default class App extends Component {
       name: "",
       prepTime: "",
       serves: ""
-    }
+    },
+    isEditMode: false
   };
 
   componentDidMount() {
@@ -40,6 +41,12 @@ export default class App extends Component {
       [e.target.name]: e.target.value
     };
     this.setState({ addRecipe: updatedAddRecipe });
+  };
+
+  toggleEditMode = () => {
+    this.setState(prevState => ({
+      isEditMode: !prevState.isEditMode
+    }));
   };
 
   handleSubmit = () => {
@@ -73,12 +80,17 @@ export default class App extends Component {
   };
 
   render() {
-    const { recipes, addRecipe } = this.state;
+    const { recipes, addRecipe, isEditMode } = this.state;
 
     return (
       <AppWrapper>
         <MainTitle>Recipes</MainTitle>
-        <RecipeList recipes={recipes} deleteRecipe={this.deleteRecipe} />
+        <RecipeList
+          recipes={recipes}
+          deleteRecipe={this.deleteRecipe}
+          toggleEditMode={this.toggleEditMode}
+          isEditMode={isEditMode}
+        />
         <AddRecipe
           inputValues={addRecipe}
           submit={this.handleSubmit}

@@ -3,7 +3,12 @@ import React from "react";
 import { RecipeListWrapper } from "./styles";
 import RecipeCard from "../RecipeCard";
 
-export default function RecipeList({ recipes, deleteRecipe }) {
+export default function RecipeList({
+  recipes,
+  deleteRecipe,
+  toggleEditMode,
+  isEditMode
+}) {
   const listOfRecipes = recipes.map(recipe => (
     <RecipeCard
       key={recipe.id}
@@ -12,6 +17,8 @@ export default function RecipeList({ recipes, deleteRecipe }) {
       prepTime={recipe.prepTime}
       serves={recipe.serves}
       deleteRecipe={deleteRecipe}
+      toggleEditMode={toggleEditMode}
+      isEditMode={isEditMode}
     />
   ));
 
