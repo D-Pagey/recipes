@@ -6,8 +6,8 @@ import RecipeCard from "../RecipeCard";
 export default function RecipeList({
   recipes,
   deleteRecipe,
-  toggleEditMode,
-  isEditMode
+  handleEditRecipeInput,
+  handleUpdatedRecipe
 }) {
   const listOfRecipes = recipes.map(recipe => (
     <RecipeCard
@@ -17,8 +17,8 @@ export default function RecipeList({
       prepTime={recipe.prepTime}
       serves={recipe.serves}
       deleteRecipe={deleteRecipe}
-      toggleEditMode={toggleEditMode}
-      isEditMode={isEditMode}
+      handleEditRecipeInput={handleEditRecipeInput}
+      handleUpdatedRecipe={handleUpdatedRecipe}
     />
   ));
 

@@ -12,8 +12,7 @@ export default class App extends Component {
       name: "",
       prepTime: "",
       serves: ""
-    },
-    isEditMode: false
+    }
   };
 
   componentDidMount() {
@@ -33,7 +32,7 @@ export default class App extends Component {
       });
   };
 
-  handleOnChange = e => {
+  handleNewRecipeInput = e => {
     const { addRecipe } = this.state;
 
     const updatedAddRecipe = {
@@ -43,10 +42,29 @@ export default class App extends Component {
     this.setState({ addRecipe: updatedAddRecipe });
   };
 
-  toggleEditMode = () => {
-    this.setState(prevState => ({
-      isEditMode: !prevState.isEditMode
-    }));
+  handleEditRecipeInput = (e, id) => {
+    const { recipes } = this.state;
+
+    const recipeIndex = recipes.findIndex(recipe => recipe.id === id);
+    const editedRecipes = [...recipes];
+
+    editedRecipes[recipeIndex] = {
+      ...editedRecipes[recipeIndex],
+      [e.target.name]: e.target.value
+    };
+
+    this.setState({ recipes: editedRecipes });
+  };
+
+  handleUpdatedRecipe = id => {
+    const { recipes } = this.state;
+
+    const editedRecipe = recipes.filter(recipe => recipe.id === id);
+
+    db.collection("recipes")
+      .doc(id)
+      .update(editedRecipe[0])
+      .then(this.fetchRecipes);
   };
 
   handleSubmit = () => {
@@ -80,7 +98,7 @@ export default class App extends Component {
   };
 
   render() {
-    const { recipes, addRecipe, isEditMode } = this.state;
+    const { recipes, addRecipe } = this.state;
 
     return (
       <AppWrapper>
@@ -88,13 +106,13 @@ export default class App extends Component {
         <RecipeList
           recipes={recipes}
           deleteRecipe={this.deleteRecipe}
-          toggleEditMode={this.toggleEditMode}
-          isEditMode={isEditMode}
+          handleEditRecipeInput={this.handleEditRecipeInput}
+          handleUpdatedRecipe={this.handleUpdatedRecipe}
         />
         <AddRecipe
           inputValues={addRecipe}
           submit={this.handleSubmit}
-          onChange={this.handleOnChange}
+          handleNewRecipeInput={this.handleNewRecipeInput}
         />
       </AppWrapper>
     );

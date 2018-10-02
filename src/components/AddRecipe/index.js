@@ -3,7 +3,11 @@ import { func } from "prop-types";
 
 import AddRecipeWrapper from "./styles";
 
-export default function AddRecipe({ submit, inputValues, onChange }) {
+export default function AddRecipe({
+  submit,
+  inputValues,
+  handleNewRecipeInput
+}) {
   const { name, prepTime, serves } = inputValues;
 
   return (
@@ -15,7 +19,7 @@ export default function AddRecipe({ submit, inputValues, onChange }) {
           id="recipe-name"
           placeholder="Name of the recipe"
           value={name}
-          onChange={e => onChange(e)}
+          onChange={e => handleNewRecipeInput(e)}
           name="name"
         />
       </label>
@@ -27,7 +31,7 @@ export default function AddRecipe({ submit, inputValues, onChange }) {
           id="recipe-preptime"
           placeholder="Time to prep (mins)"
           value={prepTime}
-          onChange={e => onChange(e)}
+          onChange={e => handleNewRecipeInput(e)}
           name="prepTime"
         />
       </label>
@@ -39,7 +43,7 @@ export default function AddRecipe({ submit, inputValues, onChange }) {
           id="recipe-serves"
           placeholder="How many people?"
           value={serves}
-          onChange={e => onChange(e)}
+          onChange={e => handleNewRecipeInput(e)}
           name="serves"
         />
       </label>
@@ -52,6 +56,5 @@ export default function AddRecipe({ submit, inputValues, onChange }) {
 }
 
 AddRecipe.propTypes = {
-  submit: func.isRequired,
-  onChange: func.isRequired
+  submit: func.isRequired
 };

@@ -1,37 +1,96 @@
-import React from "react";
+import React, { Component } from "react";
 
 import { RecipeCardWrapper, RecipeTitle } from "./styles";
 
-export default function RecipeCard({
-  id,
-  deleteRecipe,
-  name,
-  serves,
-  prepTime,
-  toggleEditMode,
-  isEditMode
-}) {
-  const editing = isEditMode ? (
-    <i className="material-icons">done</i>
-  ) : (
-    <i className="material-icons">edit</i>
-  );
+export default class RecipeCard extends Component {
+  state = {
+    isEditMode: false
+  };
 
-  return (
-    <RecipeCardWrapper>
-      <RecipeTitle>{name}</RecipeTitle>
-      <p>
-        Preparation Time = <span>{prepTime} minutes</span>
-      </p>
-      <p>
-        Serves = <span>{serves}</span>
-      </p>
-      <button type="button" onClick={() => deleteRecipe(id)}>
-        <i className="material-icons">delete</i>
-      </button>
-      <button type="button" onClick={toggleEditMode}>
-        {editing}
-      </button>
-    </RecipeCardWrapper>
-  );
+  submitEditedRecipe = () => {
+    const { handleUpdatedRecipe, id } = this.props;
+
+    this.toggleEditMode();
+    handleUpdatedRecipe(id);
+  };
+
+  toggleEditMode = () => {
+    this.setState(prevState => ({
+      isEditMode: !prevState.isEditMode
+    }));
+  };
+
+  renderEditingForm = () => {
+    const { prepTime, serves, id, name, handleEditRecipeInput } = this.props;
+
+    return (
+      <form>
+        <label>
+          Recipe title ={" "}
+          <input
+            type="text"
+            name="name"
+            value={name}
+            onChange={e => handleEditRecipeInput(e, id)}
+          />
+        </label>
+
+        <label>
+          Preparation Time ={" "}
+          <input
+            type="text"
+            name="prepTime"
+            value={prepTime}
+            onChange={e => handleEditRecipeInput(e, id)}
+          />{" "}
+          minutes
+        </label>
+        <label>
+          Serves ={" "}
+          <input
+            type="text"
+            name="serves"
+            value={serves}
+            onChange={e => handleEditRecipeInput(e, id)}
+          />{" "}
+          people
+        </label>
+        <button type="button" onClick={this.submitEditedRecipe}>
+          <i className="material-icons">done</i>
+        </button>
+      </form>
+    );
+  };
+
+  renderContent = () => {
+    const { prepTime, serves, id, deleteRecipe, name } = this.props;
+
+    return (
+      <div>
+        <RecipeTitle>{name}</RecipeTitle>
+        <p>
+          Preparation Time = <span>{prepTime} minutes</span>
+        </p>
+        <p>
+          Serves = <span>{serves}</span>
+        </p>
+        <button type="button" onClick={() => deleteRecipe(id)}>
+          <i className="material-icons">delete</i>
+        </button>
+        <button type="button" onClick={this.toggleEditMode}>
+          <i className="material-icons">edit</i>
+        </button>
+      </div>
+    );
+  };
+
+  render() {
+    const { isEditMode } = this.state;
+
+    return (
+      <RecipeCardWrapper>
+        {isEditMode ? this.renderEditingForm() : this.renderContent()}
+      </RecipeCardWrapper>
+    );
+  }
 }
