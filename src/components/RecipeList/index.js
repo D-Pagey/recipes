@@ -1,4 +1,5 @@
 import React from "react";
+import { func, shape, string } from "prop-types";
 
 import { RecipeListWrapper } from "./styles";
 import RecipeCard from "../RecipeCard";
@@ -24,3 +25,24 @@ export default function RecipeList({
 
   return <RecipeListWrapper>{listOfRecipes}</RecipeListWrapper>;
 }
+
+RecipeList.propTypes = {
+  handleEditRecipeInput: func.isRequired,
+  handleUpdatedRecipe: func.isRequired,
+  deleteRecipe: func.isRequired,
+  recipes: shape({
+    name: string,
+    id: string,
+    prepTime: string,
+    serves: string
+  })
+};
+
+RecipeList.defaultProps = {
+  recipes: {
+    name: "",
+    id: "",
+    prepTime: "",
+    serves: ""
+  }
+};

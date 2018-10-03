@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { func, string } from "prop-types";
 
 import { RecipeCardWrapper, RecipeTitle } from "./styles";
 
@@ -25,7 +26,7 @@ export default class RecipeCard extends Component {
 
     return (
       <form>
-        <label>
+        <label htmlFor="name">
           Recipe title ={" "}
           <input
             type="text"
@@ -35,7 +36,7 @@ export default class RecipeCard extends Component {
           />
         </label>
 
-        <label>
+        <label htmlFor="prepTime">
           Preparation Time ={" "}
           <input
             type="text"
@@ -45,7 +46,7 @@ export default class RecipeCard extends Component {
           />{" "}
           minutes
         </label>
-        <label>
+        <label htmlFor="serves">
           Serves ={" "}
           <input
             type="text"
@@ -94,3 +95,20 @@ export default class RecipeCard extends Component {
     );
   }
 }
+
+RecipeCard.propTypes = {
+  handleUpdatedRecipe: func.isRequired,
+  handleEditRecipeInput: func.isRequired,
+  deleteRecipe: func.isRequired,
+  id: string,
+  prepTime: string,
+  serves: string,
+  name: string
+};
+
+RecipeCard.defaultProps = {
+  id: "",
+  prepTime: 0,
+  serves: 0,
+  name: ""
+};

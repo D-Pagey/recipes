@@ -1,15 +1,13 @@
 import React from "react";
-import { func } from "prop-types";
+import { func, string, shape, number } from "prop-types";
 
 import AddRecipeWrapper from "./styles";
 
 export default function AddRecipe({
   submit,
-  inputValues,
+  inputValues: { name, prepTime, serves },
   handleNewRecipeInput
 }) {
-  const { name, prepTime, serves } = inputValues;
-
   return (
     <AddRecipeWrapper>
       <label htmlFor="recipe-name">
@@ -56,5 +54,19 @@ export default function AddRecipe({
 }
 
 AddRecipe.propTypes = {
-  submit: func.isRequired
+  submit: func.isRequired,
+  handleNewRecipeInput: func.isRequired,
+  inputValues: shape({
+    name: string,
+    serves: number,
+    prepTime: number
+  })
+};
+
+AddRecipe.defaultProps = {
+  inputValues: {
+    name: "",
+    serves: 0,
+    prepTime: 0
+  }
 };
